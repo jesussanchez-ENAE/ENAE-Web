@@ -146,7 +146,7 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 .mega[data-theme="cursos"], .mega[data-theme="search"] { --p-bg: #dee5ec; --p-fg: #202221; --p-muted: #404040; --p-line: rgba(32,34,33,.16); --p-chip: #ffffff; --p-chip-fg: #a91831; --p-card: #ffffff; --p-card-fg: #202221; --p-glyph: rgba(169,24,49,.12); --p-btn: #a91831; --p-btn-fg: #fff; }
 .mega[data-theme="emp"] { --p-bg: #ffffff; --p-fg: #202221; --p-muted: #404040; --p-line: #dee5ec; --p-chip: #dee5ec; --p-chip-fg: #a91831; --p-card: #dee5ec; --p-card-fg: #202221; --p-glyph: rgba(169,24,49,.08); --p-btn: #a91831; --p-btn-fg: #fff; }
 
-.mega-body { position: relative; z-index: 1; overflow: hidden; transition: height var(--t-slow) var(--ease-out); }
+.mega-body { position: relative; z-index: 1; overflow: clip; transition: height var(--t-slow) var(--ease-out); }
 .panel { max-width: var(--max); margin: 0 auto; padding: 32px var(--gutter) 32px; }
 .panel[hidden] { display: none; }
 
@@ -198,13 +198,19 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 .feat .cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font-weight: 700; }
 
 /* Máster */
-.p-master { display: grid; grid-template-columns: 224px minmax(0, 1fr) 304px; gap: 32px; }
-.rail { display: flex; flex-direction: column; gap: 4px; }
-.rail .eyebrow { padding: 0 16px 8px; }
-.area { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; padding: 8px 16px; border: 0; border-radius: 4px; background: transparent; text-align: left; font-size: 16px; line-height: 1.3; color: var(--p-fg); transition: background-color var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out); }
-.area:hover { background: var(--p-chip); }
-.area .n { font-size: 12px; font-weight: 700; opacity: .8; }
-.area[aria-pressed="true"] { background: var(--p-btn); color: var(--p-btn-fg); font-weight: 700; }
+.p-master { display: grid; grid-template-columns: 256px minmax(0, 1fr) 304px; gap: 32px; }
+/* Columna de áreas: superficie propia, más oscura, que sangra hasta el borde izquierdo
+   y llena todo el alto del panel; así se lee como filtro y no como parte de la lista */
+.rail { position: relative; padding-right: 16px; }
+.rail::before { content: ''; position: absolute; z-index: -1; top: -32px; bottom: -32px; right: 0; left: -100vw; background: rgba(32,34,33,.28); box-shadow: inset -1px 0 0 rgba(255,255,255,.12); }
+.rail-in { position: sticky; top: 32px; display: flex; flex-direction: column; gap: 8px; }
+.rail .eyebrow { padding: 0 16px; color: rgba(255,255,255,.72); }
+#m-areas { display: flex; flex-direction: column; gap: 4px; }
+.area { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; padding: 8px 16px; border: 0; border-radius: 4px; background: transparent; text-align: left; font-size: 16px; line-height: 1.3; font-weight: 400; color: rgba(255,255,255,.84); transition: background-color var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out); }
+.area:hover { background: rgba(255,255,255,.08); color: var(--p-fg); }
+.area .n { min-width: 24px; padding: 0 8px; border-radius: 24px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 700; line-height: 1.6; text-align: center; transition: background-color var(--t-base), color var(--t-base); }
+.area[aria-pressed="true"] { background: var(--p-btn); color: var(--p-btn-fg); font-weight: 700; box-shadow: 0 8px 16px rgba(32,34,33,.24); }
+.area[aria-pressed="true"] .n { background: var(--granate); color: var(--blanco); }
 .m-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .field { display: flex; align-items: center; gap: 8px; width: 304px; max-width: 100%; height: 44px; padding: 0 16px; border: 1px solid var(--p-line); border-radius: 4px; background: var(--p-chip); transition: border-color var(--t-base), background-color var(--t-base); }
 .field:focus-within { border-color: var(--p-fg); }
@@ -347,7 +353,7 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 1359px) {
-  .p-master { grid-template-columns: 224px minmax(0, 1fr); }
+  .p-master { grid-template-columns: 256px minmax(0, 1fr); }
   .p-master .feat { display: none; }
 }
 @media (max-width: 1279px) {
@@ -556,8 +562,10 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
     master: () => `
       <div class="p-master">
         <div class="rail" role="group" aria-label="Áreas de educación">
-          <div class="eyebrow stg" style="--i:0">Áreas de educación</div>
-          <div id="m-areas"></div>
+          <div class="rail-in">
+            <div class="eyebrow stg" style="--i:0">Áreas de educación</div>
+            <div id="m-areas"></div>
+          </div>
         </div>
         <div>
           <div class="m-head stg" style="--i:1">
