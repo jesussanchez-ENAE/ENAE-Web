@@ -144,6 +144,7 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 .mega[data-theme="master"], .mega[data-theme="about"] { --p-bg: #a91831; --p-fg: #fff; --p-muted: rgba(255,255,255,.84); --p-line: rgba(255,255,255,.24); --p-chip: rgba(255,255,255,.16); --p-chip-fg: #fff; --p-card: #202221; --p-card-fg: #fff; --p-glyph: rgba(255,255,255,.12); --p-btn: #fff; --p-btn-fg: #a91831; }
 .mega[data-theme="exec"], .mega[data-theme="news"] { --p-bg: #202221; --p-fg: #fff; --p-muted: rgba(255,255,255,.8); --p-line: rgba(255,255,255,.16); --p-chip: rgba(255,255,255,.12); --p-chip-fg: #fff; --p-card: #a91831; --p-card-fg: #fff; --p-glyph: rgba(169,24,49,.48); --p-btn: #fff; --p-btn-fg: #202221; }
 .mega[data-theme="cursos"], .mega[data-theme="search"] { --p-bg: #dee5ec; --p-fg: #202221; --p-muted: #404040; --p-line: rgba(32,34,33,.16); --p-chip: #ffffff; --p-chip-fg: #a91831; --p-card: #ffffff; --p-card-fg: #202221; --p-glyph: rgba(169,24,49,.12); --p-btn: #a91831; --p-btn-fg: #fff; }
+.mega[data-theme="cursos"] { --p-glyph: rgba(169,24,49,.07); }
 .mega[data-theme="emp"] { --p-bg: #ffffff; --p-fg: #202221; --p-muted: #404040; --p-line: #dee5ec; --p-chip: #dee5ec; --p-chip-fg: #a91831; --p-card: #dee5ec; --p-card-fg: #202221; --p-glyph: rgba(169,24,49,.08); --p-btn: #a91831; --p-btn-fg: #fff; }
 
 .mega-body { position: relative; z-index: 1; overflow: clip; transition: height var(--t-slow) var(--ease-out); }
@@ -198,19 +199,32 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 .feat .cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font-weight: 700; }
 
 /* Máster */
-.p-master { display: grid; grid-template-columns: 256px minmax(0, 1fr) 304px; gap: 32px; }
+.p-cat { display: grid; grid-template-columns: 256px minmax(0, 1fr) 304px; gap: 32px; }
 /* Columna de áreas: superficie propia, más oscura, que sangra hasta el borde izquierdo
    y llena todo el alto del panel; así se lee como filtro y no como parte de la lista */
-.rail { position: relative; padding-right: 16px; }
-.rail::before { content: ''; position: absolute; z-index: -1; top: -32px; bottom: -32px; right: 0; left: -100vw; background: rgba(32,34,33,.28); box-shadow: inset -1px 0 0 rgba(255,255,255,.12); }
+.rail { position: relative; padding-right: 16px;
+  --r-bg: rgba(32,34,33,.28); --r-edge: rgba(255,255,255,.12); --r-fg: rgba(255,255,255,.84); --r-eyebrow: rgba(255,255,255,.72); --r-hover: rgba(255,255,255,.08); --r-n: rgba(255,255,255,.12); }
+.mega[data-theme="cursos"] .rail { --r-bg: rgba(255,255,255,.6); --r-edge: rgba(32,34,33,.08); --r-fg: #404040; --r-eyebrow: #404040; --r-hover: rgba(169,24,49,.08); --r-n: #dee5ec; }
+.rail::before { content: ''; position: absolute; z-index: -1; top: -32px; bottom: -32px; right: 0; left: -100vw; background: var(--r-bg); box-shadow: inset -1px 0 0 var(--r-edge); }
 .rail-in { position: sticky; top: 32px; display: flex; flex-direction: column; gap: 8px; }
-.rail .eyebrow { padding: 0 16px; color: rgba(255,255,255,.72); }
-#m-areas { display: flex; flex-direction: column; gap: 4px; }
-.area { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; padding: 8px 16px; border: 0; border-radius: 4px; background: transparent; text-align: left; font-size: 16px; line-height: 1.3; font-weight: 400; color: rgba(255,255,255,.84); transition: background-color var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out); }
-.area:hover { background: rgba(255,255,255,.08); color: var(--p-fg); }
-.area .n { min-width: 24px; padding: 0 8px; border-radius: 24px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 700; line-height: 1.6; text-align: center; transition: background-color var(--t-base), color var(--t-base); }
+.rail .eyebrow { padding: 0 16px; color: var(--r-eyebrow); }
+.areas { display: flex; flex-direction: column; gap: 4px; }
+.area { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; padding: 8px 16px; border: 0; border-radius: 4px; background: transparent; text-align: left; font-size: 16px; line-height: 1.3; font-weight: 400; color: var(--r-fg); transition: background-color var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out), opacity var(--t-base); }
+.area:hover { background: var(--r-hover); color: var(--p-fg); }
+.area .n { min-width: 24px; padding: 0 8px; border-radius: 24px; background: var(--r-n); font-size: 12px; font-weight: 700; line-height: 1.6; text-align: center; transition: background-color var(--t-base), color var(--t-base); }
 .area[aria-pressed="true"] { background: var(--p-btn); color: var(--p-btn-fg); font-weight: 700; box-shadow: 0 8px 16px rgba(32,34,33,.24); }
-.area[aria-pressed="true"] .n { background: var(--granate); color: var(--blanco); }
+.area[aria-pressed="true"] .n { background: var(--p-btn-fg); color: var(--p-btn); }
+.area[aria-disabled="true"] { opacity: .4; cursor: default; }
+.area[aria-disabled="true"]:hover { background: transparent; color: var(--r-fg); }
+
+/* Filtros rápidos (conmutadores) */
+.tgls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.tgl { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 16px; border: 1px solid var(--p-line); border-radius: 48px; background: var(--p-chip); color: var(--p-fg); font-size: 16px; line-height: 1.3; transition: background-color var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out), border-color var(--t-base), transform var(--t-fast); }
+.tgl:hover { border-color: var(--p-fg); }
+.tgl:active { transform: scale(.96); }
+.tgl .ck { width: 0; height: 16px; opacity: 0; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: width var(--t-base) var(--ease-out), opacity var(--t-base), margin var(--t-base) var(--ease-out); }
+.tgl[aria-pressed="true"] { background: var(--p-fg); color: var(--p-bg); border-color: var(--p-fg); }
+.tgl[aria-pressed="true"] .ck { width: 16px; opacity: 1; margin-right: 8px; }
 .m-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .field { display: flex; align-items: center; gap: 8px; width: 304px; max-width: 100%; height: 44px; padding: 0 16px; border: 1px solid var(--p-line); border-radius: 4px; background: var(--p-chip); transition: border-color var(--t-base), background-color var(--t-base); }
 .field:focus-within { border-color: var(--p-fg); }
@@ -221,6 +235,10 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 .m-item { display: flex; flex-direction: column; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--p-line); }
 .m-item .t { display: flex; justify-content: space-between; gap: 16px; font-size: 16px; font-weight: 600; line-height: 1.3; }
 .m-item .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.m-item .meta { font-size: 12px; line-height: 1.6; color: var(--p-muted); }
+.chip-hot { background: var(--granate); color: var(--blanco); }
+.m-item .fz { font-weight: 700; color: var(--granate); }
+.more-all { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding-top: 16px; font-weight: 700; color: var(--p-chip-fg); }
 .m-item .t span { transition: transform var(--t-base) var(--ease-out); }
 .m-item .arr { opacity: 0; transform: translateX(-8px); transition: opacity var(--t-fast), transform var(--t-base) var(--ease-out); margin-top: 2px; }
 .m-item:hover .t span, .m-item:focus-visible .t span { transform: translateX(4px); }
@@ -237,7 +255,15 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 .soon .row a { font-size: 12px; font-weight: 700; line-height: 1.6; }
 
 /* Cursos */
-.p-cursos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 304px; gap: 32px; }
+.aside { display: flex; flex-direction: column; gap: 24px; align-self: start; }
+.aside .note .pill { align-self: flex-start; }
+.advisor { display: flex; flex-direction: column; gap: 8px; padding: 0 24px; }
+.advisor h3 { margin: 0; font-size: 20px; line-height: 1.3; }
+.advisor p { margin: 0; font-weight: 300; color: var(--p-muted); }
+.advisor .lnk { min-height: 40px; padding: 0; color: var(--granate); font-weight: 700; justify-content: flex-start; gap: 8px; }
+.advisor .lnk .arr { opacity: 1; transform: none; }
+.advisor .tel { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; font-weight: 700; }
+.advisor .tel svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .note { display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 4px; background: var(--p-card); color: var(--p-card-fg); align-self: start; }
 .note h3 { margin: 0; font-size: 20px; line-height: 1.3; font-weight: 700; }
 .note p { margin: 0; font-weight: 300; }
@@ -481,9 +507,34 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
     ['Executive MBA', [2], ['Executive']],
     ['Global Executive MBA', [2], ['Executive', 'Internacional']]
   ];
-  const CURSO_AREAS = ['Finanzas, auditoría y fiscalidad', 'Estrategia, habilidades directivas y organización', 'Marketing', 'Entorno económico y operaciones', 'Tecnología de la información'];
-  const CURSO_TOP = ['Power BI', 'Conversion Rate Optimization (CRO)', 'Ecommerce avanzado', 'Agentes inteligentes MCP y automatización cognitiva'];
-  const CURSOS = [...CURSO_TOP, 'Dashboards y reporting', 'Data mining y machine learning', 'Balanced Scorecard', 'Dirección de equipos de alto rendimiento'];
+  // [título, áreas, modalidad, horas, bonificable FUNDAE, más demandado]
+  // DATOS DE EJEMPLO: modalidad, horas y bonificación son orientativos; deben venir del CMS
+  const COURSES = [
+    ['Power BI', [8], 'Online', 30, true, true],
+    ['Conversion Rate Optimization (CRO)', [1], 'Online', 20, true, true],
+    ['Ecommerce avanzado', [1], 'Semipresencial', 40, true, true],
+    ['Agentes inteligentes MCP y automatización cognitiva', [8], 'Online', 24, true, true],
+    ['Análisis exploratorio de datos y estadística', [8], 'Online', 30, true],
+    ['Aprovisionamiento y gestión de compras', [5], 'Presencial', 20, true],
+    ['Balanced Scorecard', [2], 'Presencial', 16, true],
+    ['Bases para el estudio del sistema tributario español', [4], 'Online', 30, true],
+    ['Business Analytics e IA aplicada a las finanzas', [3, 8], 'Semipresencial', 40, true],
+    ['Casos de éxito y fracaso de la innovación', [2], 'Presencial', 12, false],
+    ['Clima y wellbeing', [7], 'Presencial', 16, true],
+    ['Control, tratamiento y mitigación del riesgo', [6], 'Online', 24, true],
+    ['CRM, activación comercial y voice agents', [1, 8], 'Online', 20, true],
+    ['Dashboards y reporting', [8], 'Online', 20, true],
+    ['Data mining y machine learning', [8], 'Online', 40, true],
+    ['Datos, APIs y marketing analytics', [1, 8], 'Online', 24, true],
+    ['Deep learning: aplicación en visión y lenguaje', [8], 'Online', 30, false],
+    ['Diagnóstico de la salud económico-financiera y plan de mejora', [3], 'Semipresencial', 24, true],
+    ['Dirección comercial y negociación para la empresa agroalimentaria', [0, 1], 'Presencial', 20, true],
+    ['Dirección de equipos de alto rendimiento', [7, 2], 'Presencial', 20, true],
+    ['Dirección de proyectos de innovación', [2], 'Semipresencial', 24, true],
+    ['Diseño organizacional', [7, 2], 'Presencial', 16, true]
+  ];
+  const CURSO_TOP = COURSES.filter(c => c[5]).map(c => c[0]);
+  const CURSOS = COURSES.map(c => c[0]);
   const EXEC_OPEN = ['La columna vertebral analítica y tecnológica', 'Inteligencia artificial y Business Analytics para finanzas', 'Experto en ventas y dirección comercial con IA aplicada', 'El ciclo de vida del talento'];
   const EXEC_SOON = ['Programa avanzado de control de gestión estratégico (Controller)', 'Magistrae', 'Escuela de gestores', 'Liderando el consejo', 'Dirección y gestión de la innovación', 'Programa superior de liderazgo para directivas', 'El núcleo estratégico y humano'];
   const EMPRESAS = [
@@ -559,27 +610,12 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
 
   /* ── Paneles ────────────────────────────────────────────────── */
   const PANELS = {
-    master: () => `
-      <div class="p-master">
-        <div class="rail" role="group" aria-label="Áreas de educación">
-          <div class="rail-in">
-            <div class="eyebrow stg" style="--i:0">Áreas de educación</div>
-            <div id="m-areas"></div>
-          </div>
-        </div>
-        <div>
-          <div class="m-head stg" style="--i:1">
-            <div><h2 class="p-title" id="m-title">Másteres</h2><p class="p-sub" id="m-count" aria-live="polite"></p></div>
-            <label class="field">${SEARCH_I}<input id="m-q" type="text" placeholder="Filtrar por nombre" aria-label="Filtrar másteres por nombre" autocomplete="off"></label>
-          </div>
-          <div id="m-list"></div>
-          <div class="foot stg" style="--i:14">
-            <span class="help">¿No sabes cuál elegir? <a href="#" class="ul">Habla con un asesor</a></span>
-            <a href="#" class="pill btn-p">Ver todos los másteres ${ARR}</a>
-          </div>
-        </div>
-        ${featCard(EVENTS.digital, '>>>', 'Congreso · Marketing digital', '¿Conoces el ENAE Digital Meeting?', 'El evento de marketing digital más completo del panorama nacional.', 'Descubre el programa', 3)}
+    master: () => catalogPanel('master',
+      `<div class="foot stg" style="--i:14">
+        <span class="help">¿No sabes cuál elegir? <a href="#" class="ul">Habla con un asesor</a></span>
+        <a href="#" class="pill btn-p">Ver todos los másteres ${ARR}</a>
       </div>`,
+      featCard(EVENTS.digital, '>>>', 'Congreso · Marketing digital', '¿Conoces el ENAE Digital Meeting?', 'El evento de marketing digital más completo del panorama nacional.', 'Descubre el programa', 3)),
     exec: () => `
       <div class="p-exec">
         <div>
@@ -593,17 +629,25 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
         ${featCard(EVENTS.gala, '¨¨¨', 'Evento · Alumni', 'Gala 30 aniversario Executive MBA', 'Tres décadas formando directivos. Celébralo con la comunidad ENAE.', 'Reserva tu plaza', 4)}
       </div>
       <div class="foot stg" style="--i:12"><span class="help">Formación para directivos en activo, en formato intensivo.</span><a href="#" class="pill btn-p">Ver todos los programas ejecutivos ${ARR}</a></div>`,
-    cursos: () => `
-      <div class="p-cursos">
-        ${colLinks('Por área', CURSO_AREAS, 0)}
-        ${colLinks('Los más demandados', CURSO_TOP, 2)}
-        <div class="note stg" style="--i:4">
-          <h3>Formación bonificable</h3>
-          <p>Muchos cursos pueden bonificarse a través de FUNDAE.</p>
-          <a href="#" style="display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--granate)"><span class="ul">Cómo funciona</span>${ARR}</a>
+    cursos: () => catalogPanel('cursos',
+      `<div class="foot stg" style="--i:14">
+        <span class="help">Formación corta para actualizar una habilidad concreta.</span>
+        <a href="#" class="pill btn-o">Ver el catálogo completo (${COURSES.length}) ${ARR}</a>
+      </div>`,
+      `<div class="aside stg" style="--i:3">
+        <div class="note">
+          <span class="eyebrow">Formación bonificable</span>
+          <h3>Tu empresa puede financiar tu curso</h3>
+          <p>Muchos cursos pueden bonificarse con los créditos de formación de tu empresa a través de FUNDAE.</p>
+          <a href="#" class="pill btn-p">Calcula tu bonificación ${ARR}</a>
         </div>
-      </div>
-      <div class="foot stg" style="--i:10"><span class="help">Cursos cortos para actualizar una habilidad concreta.</span><a href="#" class="pill btn-p">Ver todos los cursos ${ARR}</a></div>`,
+        <div class="advisor">
+          <h3>¿No sabes cuál elegir?</h3>
+          <p>Te orientamos según tu perfil y tus objetivos.</p>
+          <a href="#" class="lnk"><span class="ul">Habla con un asesor</span>${ARR}</a>
+          <a href="tel:+34968899899" class="tel"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h3l1.5 3.5-2 1.2a8 8 0 0 0 3.8 3.8l1.2-2L14 10v3a1 1 0 0 1-1 1A11 11 0 0 1 2 3a1 1 0 0 1 1-1z"/></svg>968 899 899</a>
+        </div>
+      </div>`),
     emp: () => `
       <div class="p-emp">
         <div class="cards">
@@ -658,19 +702,75 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
     replay($('[data-panel="search"]'), 0, out);
   }
 
-  const state = { open: null, area: 'Todos', mq: '' };
+  const state = { open: null };
 
-  function renderMaster() {
-    const ai = AREAS.indexOf(state.area), ql = norm(state.mq.trim());
-    const list = MASTERS.filter(([t, a]) => (ai < 0 || a.includes(ai)) && (!ql || norm(t).includes(ql)));
-    const areas = [{ n: 'Todos', c: MASTERS.length }, ...AREAS.map((n, i) => ({ n, c: MASTERS.filter(m => m[1].includes(i)).length }))].filter(a => a.c);
-    $('#m-areas').innerHTML = areas.map((a, i) => `<button type="button" class="area stg" style="--i:${Math.min(i + 1, 14)}" data-area="${esc(a.n)}" aria-pressed="${a.n === state.area}"><span>${esc(a.n)}</span><span class="n">${a.c}</span></button>`).join('');
-    $('#m-title').textContent = state.area === 'Todos' ? 'Másteres' : state.area;
-    $('#m-count').textContent = list.length + (list.length === 1 ? ' programa' : ' programas') + (ql ? ' para «' + state.mq.trim() + '»' : '');
-    $('#m-list').innerHTML = list.length
-      ? `<div class="m-grid">${list.map(([t, , tags], i) => `<a href="#" class="m-item stg" style="--i:${Math.min(i + 2, 14)}"><span class="t"><span>${ql ? highlight(t, state.mq.trim()) : esc(t)}</span>${ARR}</span><span class="tags">${tags.map(g => `<span class="chip">${esc(g)}</span>`).join('')}</span></a>`).join('')}</div>`
-      : `<p class="empty">Ningún máster coincide. <button type="button" id="m-reset">Quitar filtros</button></p>`;
+  /* ── Catálogos con filtro (Máster y Cursos comparten patrón) ─── */
+  const CHECK = '<svg class="ck" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>';
+  const CATALOG = {
+    master: { items: MASTERS.map(([t, a, tags]) => ({ t, a, tags })), all: 'Másteres', noun: ['programa', 'programas'], label: 'másteres', limit: 0, flags: [] },
+    cursos: {
+      // Los más demandados primero; el resto, en orden alfabético
+      items: COURSES.map(([t, a, mode, h, fundae, top]) => ({ t, a, mode, h, fundae, top: !!top })).sort((x, y) => y.top - x.top || x.t.localeCompare(y.t, 'es')),
+      all: 'Cursos', noun: ['curso', 'cursos'], label: 'cursos', limit: 8,
+      flags: [['fundae', 'Bonificable FUNDAE', it => it.fundae], ['online', 'Online', it => it.mode === 'Online']]
+    }
+  };
+  const cat = { master: { area: 'Todos', q: '', on: new Set() }, cursos: { area: 'Todos', q: '', on: new Set() } };
+
+  function catalogPanel(k, foot, aside) {
+    const C = CATALOG[k];
+    return `
+      <div class="p-cat p-${k}">
+        <div class="rail" role="group" aria-label="Áreas de educación"><div class="rail-in">
+          <div class="eyebrow stg" style="--i:0">Áreas de educación</div>
+          <div class="areas" id="${k}-areas"></div>
+        </div></div>
+        <div>
+          <div class="m-head stg" style="--i:1">
+            <div><h2 class="p-title" id="${k}-title"></h2><p class="p-sub" id="${k}-count" aria-live="polite"></p></div>
+            <label class="field">${SEARCH_I}<input id="${k}-q" data-cat="${k}" type="text" placeholder="Filtrar por nombre" aria-label="Filtrar ${C.label} por nombre" autocomplete="off"></label>
+          </div>
+          ${C.flags.length ? `<div class="tgls stg" style="--i:2" role="group" aria-label="Filtros rápidos">${C.flags.map(([id, l]) => `<button type="button" class="tgl" data-cat="${k}" data-flag="${id}" aria-pressed="false">${CHECK}${esc(l)}</button>`).join('')}</div>` : ''}
+          <div id="${k}-list"></div>
+          ${foot}
+        </div>
+        ${aside}
+      </div>`;
   }
+
+  function renderCatalog(k) {
+    const C = CATALOG[k], s = cat[k], ai = AREAS.indexOf(s.area), q = s.q.trim(), ql = norm(q);
+    const flagged = C.items.filter(it => C.flags.every(([id, , fn]) => !s.on.has(id) || fn(it)));
+    const list = flagged.filter(it => (ai < 0 || it.a.includes(ai)) && (!ql || norm(it.t).includes(ql)));
+    // Las áreas siempre visibles (no saltan al filtrar); las que se quedan a 0 se desactivan
+    const areas = [{ n: 'Todos', c: flagged.length }, ...AREAS.map((n, i) => ({ n, c: flagged.filter(it => it.a.includes(i)).length, any: C.items.some(it => it.a.includes(i)) }))].filter(a => a.n === 'Todos' || a.any);
+    $(`#${k}-areas`).innerHTML = areas.map((a, i) => `<button type="button" class="area stg" style="--i:${Math.min(i + 1, 14)}" data-cat="${k}" data-area="${esc(a.n)}" aria-pressed="${a.n === s.area}"${!a.c && a.n !== s.area ? ' aria-disabled="true"' : ''}><span>${esc(a.n)}</span><span class="n">${a.c}</span></button>`).join('');
+    $(`#${k}-title`).textContent = s.area === 'Todos' ? C.all : s.area;
+    const fundae = list.filter(it => it.fundae).length;
+    $(`#${k}-count`).textContent = list.length + ' ' + C.noun[list.length === 1 ? 0 : 1]
+      + (C.flags.length && !s.on.has('fundae') && fundae ? ' · ' + fundae + ' bonificables' : '')
+      + (q ? ' para «' + q + '»' : '');
+    $$(`[data-cat="${k}"][data-flag]`).forEach(b => b.setAttribute('aria-pressed', String(s.on.has(b.dataset.flag))));
+
+    const shown = C.limit ? list.slice(0, C.limit) : list;
+    const item = (it, i) => {
+      // Bonificable va en la línea de datos: casi todos lo son, así que una etiqueta por curso sería ruido
+      const tags = it.tags || (it.top ? [['Más demandado', ' chip-hot']] : []);
+      return `<a href="#" class="m-item stg" style="--i:${Math.min(i + 2, 14)}">
+        <span class="t"><span>${ql ? highlight(it.t, q) : esc(it.t)}</span>${ARR}</span>
+        ${it.mode ? `<span class="meta">${esc(it.mode)} · ${it.h} h${it.fundae ? ' · <b class="fz">Bonificable</b>' : ''}</span>` : ''}
+        ${tags.length ? `<span class="tags">${tags.map(g => Array.isArray(g) ? `<span class="chip${g[1]}">${esc(g[0])}</span>` : `<span class="chip">${esc(g)}</span>`).join('')}</span>` : ''}
+      </a>`;
+    };
+    // El enlace contextual solo aparece si hay filtro; sin filtro ya lo cubre el botón del pie
+    const filtered = s.area !== 'Todos' || q || s.on.size;
+    const more = filtered && list.length > shown.length
+      ? `<a href="#" class="more-all stg" style="--i:${shown.length + 2}"><span class="ul">Ver los ${list.length} ${C.noun[1]}${s.area !== 'Todos' ? ' de ' + esc(s.area) : ''}</span>${ARR}</a>` : '';
+    $(`#${k}-list`).innerHTML = list.length
+      ? `<div class="m-grid">${shown.map(item).join('')}${more}</div>`
+      : `<p class="empty">Ningún ${C.noun[0]} coincide con estos filtros. <button type="button" data-reset="${k}">Quitar filtros</button>${k === 'cursos' ? ' o <a href="#" style="font-weight:700;text-decoration:underline">cuéntanos qué necesitas</a>' : ''}.</p>`;
+  }
+  const refresh = k => { renderCatalog(k); replay($(`[data-panel="${k}"]`), 0, $(`#${k}-list`)); };
 
   /* ── Menú de escritorio ─────────────────────────────────────── */
   const hdr = $('#hdr'), mega = $('#mega'), body = $('#mega-body'), wm = $('#wm'), ink = $('#ink'), scrim = $('#scrim');
@@ -678,7 +778,8 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
   $('#nav-list').innerHTML = NAV.map(([id, label]) => `<li><button class="nav-btn" id="nav-${id}" data-id="${id}" aria-expanded="false" aria-controls="mega">${esc(label)}${CHEV}</button></li>`).join('');
   const btns = $$('.nav-btn');
   body.innerHTML = ORDER.map(id => `<section class="panel" data-panel="${id}" ${id === 'search' ? 'aria-label="Buscador"' : `aria-labelledby="nav-${id}"`} hidden>${PANELS[id]()}</section>`).join('');
-  renderMaster();
+  renderCatalog('master');
+  renderCatalog('cursos');
   renderSearch('');
 
   // Reinicia la entrada escalonada; dir = -1 | 0 | 1 indica de qué lado entra el contenido
@@ -783,13 +884,20 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
   // Panel Máster
   body.addEventListener('click', e => {
     const a = e.target.closest('[data-area]');
-    if (a) { state.area = a.dataset.area; renderMaster(); replay($('[data-panel="master"]'), 0, $('#m-list')); $(`[data-area="${CSS.escape(state.area)}"]`).focus(); return; }
-    if (e.target.closest('#m-reset')) { state.area = 'Todos'; state.mq = ''; $('#m-q').value = ''; renderMaster(); replay($('[data-panel="master"]'), 0, $('#m-list')); return; }
+    if (a) {
+      if (a.getAttribute('aria-disabled') === 'true') return;
+      const k = a.dataset.cat; cat[k].area = a.dataset.area; refresh(k);
+      $(`#${k}-areas [data-area="${CSS.escape(cat[k].area)}"]`).focus(); return;
+    }
+    const f = e.target.closest('[data-flag]');
+    if (f) { const k = f.dataset.cat, on = cat[k].on; on.has(f.dataset.flag) ? on.delete(f.dataset.flag) : on.add(f.dataset.flag); refresh(k); return; }
+    const r = e.target.closest('[data-reset]');
+    if (r) { const k = r.dataset.reset; Object.assign(cat[k], { area: 'Todos', q: '' }); cat[k].on.clear(); $(`#${k}-q`).value = ''; refresh(k); $(`#${k}-q`).focus(); return; }
     const s = e.target.closest('[data-sugg]');
     if (s) { $('#s-q').value = s.dataset.sugg; renderSearch(s.dataset.sugg); $('#s-q').focus(); }
     if (e.target.closest('a[href="#"]')) e.preventDefault();
   });
-  $('#m-q').addEventListener('input', e => { state.mq = e.target.value; renderMaster(); replay($('[data-panel="master"]'), 0, $('#m-list')); });
+  body.addEventListener('input', e => { const k = e.target.dataset.cat; if (k && CATALOG[k]) { cat[k].q = e.target.value; refresh(k); } });
   $('#s-q').addEventListener('input', e => renderSearch(e.target.value));
   $('#s-q').addEventListener('keydown', e => { if (e.key === 'ArrowDown') { const f = $('#s-out a, #s-out button'); if (f) { e.preventDefault(); f.focus(); } } });
   $('#s-form').addEventListener('submit', e => { e.preventDefault(); const f = $('#s-out .res'); if (f) f.focus(); });
@@ -808,7 +916,7 @@ a:hover .ul, a:focus-visible .ul, a.ul:hover, a.ul:focus-visible { background-si
   const DRAWER = [
     ['master', 'Máster', [['', MASTERS.map(m => m[0])]], 'Ver todos los másteres'],
     ['exec', 'Programas ejecutivos', [['Inscripción abierta', EXEC_OPEN], ['Próximamente', EXEC_SOON]], 'Ver todos los programas'],
-    ['cursos', 'Cursos', [['Por área', CURSO_AREAS], ['Los más demandados', CURSO_TOP]], 'Ver todos los cursos'],
+    ['cursos', 'Cursos', [['Los más demandados', CURSO_TOP], ['Por área', AREAS.filter((n, i) => COURSES.some(c => c[1].includes(i)))]], `Ver los ${COURSES.length} cursos`],
     ['emp', 'Empresas', [['', EMPRESAS.map(c => c.t)]], 'Future Jobs Day'],
     ['news', 'Actualidad', [['', ACTUALIDAD.map(a => a.t)], ['No te pierdas', [EVENTS.gala.t, EVENTS.digital.t]]], 'Ir a Actualidad'],
     ['about', 'Sobre ENAE', ABOUT.map(g => [g.h, g.links]), 'Contacto']
